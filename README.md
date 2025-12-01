@@ -1,6 +1,7 @@
 # AI
 
 **1. Family tree and relationships**
+```prolog
 % sample facts
 male(john).
 male(paul).
@@ -40,7 +41,7 @@ cousin(X,Y) :-
 
 ancestor(X,Y) :- parent(X,Y).
 ancestor(X,Y) :- parent(X,Z), ancestor(Z,Y).
-
+```
 
 
 ?- father(john, Who).      % Who = paul ; Who = linda.
@@ -52,10 +53,11 @@ ancestor(X,Y) :- parent(X,Z), ancestor(Z,Y).
 ---
 
 2. conc(L1, L2, L3) — append
-
+```prolog
 conc([], L, L).
 conc([H|T], L2, [H|R]) :-
     conc(T, L2, R).
+```
 
 Example:
 
@@ -72,12 +74,14 @@ Example:
 Two versions: simple (uses conc) and efficient accumulator.
 
 Efficient:
+```prolog
 
 reverse(L, R) :- rev_acc(L, [], R).
 
 rev_acc([], Acc, Acc).
 rev_acc([H|T], Acc, R) :-
     rev_acc(T, [H|Acc], R).
+```
 
 Example:
 
@@ -88,9 +92,10 @@ Example:
 
 4. sum of two numbers
 
+```
 sum2(X, Y, S) :-
     S is X + Y.
-
+```
 Example:
 
 ?- sum2(7, 5, S). % S = 12.
@@ -99,10 +104,10 @@ Example:
 ---
 
 5. max(X, Y, M)
-
+```
 max(X, Y, X) :- X >= Y, !.
 max(_, Y, Y).
-
+```
 Example:
 
 ?- max(5, 9, M). % M = 9.
@@ -112,14 +117,14 @@ Example:
 ---
 
 6. factorial(N, F)
-
+```
 factorial(0, 1) :- !.
 factorial(N, F) :-
     N > 0,
     N1 is N - 1,
     factorial(N1, F1),
     F is N * F1.
-
+```
 Example:
 
 ?- factorial(5, F). % F = 120.
@@ -130,7 +135,7 @@ Example:
 7. generate_fib(N, T) — Nth Fibonacci term
 
 (0-based: fib(0)=0, fib(1)=1)
-
+```
 generate_fib(0, 0) :- !.
 generate_fib(1, 1) :- !.
 generate_fib(N, T) :-
@@ -153,7 +158,7 @@ fib_acc(N, A, B, T) :-
     N1 is N - 1,
     C is A + B,
     fib_acc(N1, B, C, T).
-
+```
 Examples:
 
 ?- generate_fib(6, T).       % T = 8 (0,1,1,2,3,5,8).
@@ -163,7 +168,7 @@ Examples:
 ---
 
 8. power(Num, Pow, Ans) — integer nonnegative Pow
-
+```
 power(_, 0, 1) :- !.
 power(Num, Pow, Ans) :-
     Pow > 0,
@@ -172,7 +177,7 @@ power(Num, Pow, Ans) :-
     Ans is A1 * Num.
 
 (For negative exponents you'd use floats and reciprocals.)
-
+```
 Example:
 
 ?- power(2, 8, A). % A = 256.
@@ -181,10 +186,10 @@ Example:
 ---
 
 9. multi(N1, N2, R) — multiplication
-
+```
 multi(N1, N2, R) :-
     R is N1 * N2.
-
+```
 Example:
 
 ?- multi(7, 6, R). % R = 42.
@@ -193,13 +198,13 @@ Example:
 ---
 
 10. memb(X, L) — membership
-
+```
 memb(X, [X|_]) :- !.
 memb(X, [_|T]) :-
     memb(X, T).
 
 (Or use built-in member/2.)
-
+```
 Example:
 
 ?- memb(3, [1,2,3,4]). % true.
@@ -209,12 +214,12 @@ Example:
 ---
 
 11. sumlist(L, S) — sum of elements
-
+```
 sumlist([], 0).
 sumlist([H|T], S) :-
     sumlist(T, S1),
     S is H + S1.
-
+```
 Example:
 
 ?- sumlist([1,2,3,4], S). % S = 10.
@@ -223,7 +228,7 @@ Example:
 ---
 
 12. evenlength(List) and oddlength(List)
-
+```
 Method: remove two elements for even; odd if one element remains.
 
 evenlength([]).
@@ -233,7 +238,7 @@ evenlength([_,_|T]) :-
 oddlength([_]).
 oddlength([_,_|T]) :-
     oddlength(T).
-
+```
 Examples:
 
 ?- evenlength([a,b,c,d]). % true.
@@ -244,12 +249,12 @@ Examples:
 ---
 
 13. maxlist(L, M) — maximum in list
-
+```
 maxlist([H], H) :- !.
 maxlist([H|T], M) :-
     maxlist(T, M1),
     ( H >= M1 -> M = H ; M = M1 ).
-
+```
 Example:
 
 ?- maxlist([3,7,2,9,5], M). % M = 9.
@@ -258,14 +263,14 @@ Example:
 ---
 
 14. insert(I, N, L, R) — insert I at position N (1-based)
-
+```
 insert(I, 1, L, [I|L]) :- !.
 insert(I, N, [H|T], [H|R]) :-
     N > 1,
     N1 is N - 1,
     insert(I, N1, T, R).
 % if position is beyond end, will fail; to append at end, you can add clause.
-
+```
 Example:
 
 ?- insert(x, 2, [a,b,c], R). % R = [a,x,b,c].
@@ -277,13 +282,13 @@ If you want safe append when N > length+1, add an extra clause to append.
 ---
 
 15. delete(N, L, R) — remove element at position N (1-based)
-
+```
 delete(1, [_|T], T) :- !.
 delete(N, [H|T], [H|R]) :-
     N > 1,
     N1 is N - 1,
     delete(N1, T, R).
-
+```
 Example:
 
 ?- delete(2, [a,b,c,d], R). % R = [a,c,d].
