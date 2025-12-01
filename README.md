@@ -175,9 +175,9 @@ power(Num, Pow, Ans) :-
     Pow1 is Pow - 1,
     power(Num, Pow1, A1),
     Ans is A1 * Num.
-
-(For negative exponents you'd use floats and reciprocals.)
 ```
+(For negative exponents you'd use floats and reciprocals.)
+
 Example:
 
 ?- power(2, 8, A). % A = 256.
@@ -202,9 +202,9 @@ Example:
 memb(X, [X|_]) :- !.
 memb(X, [_|T]) :-
     memb(X, T).
-
-(Or use built-in member/2.)
 ```
+(Or use built-in member/2.)
+
 Example:
 
 ?- memb(3, [1,2,3,4]). % true.
@@ -228,9 +228,9 @@ Example:
 ---
 
 12. evenlength(List) and oddlength(List)
-```
-Method: remove two elements for even; odd if one element remains.
 
+Method: remove two elements for even; odd if one element remains.
+```
 evenlength([]).
 evenlength([_,_|T]) :-
     evenlength(T).
